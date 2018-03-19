@@ -338,6 +338,8 @@ func (c *Client) UnmarshalResponse(response *http.Response, resType interface{})
 	if len(body) == 0 || resType == nil {
 		return nil
 	}
-
-	return json.Unmarshal(body, &resType)
+	
+	d := json.NewDecoder(bytes.NewReader(body))
+	d.UseNumber()
+	return d.Decode(&resType)
 }
